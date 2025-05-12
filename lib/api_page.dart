@@ -24,6 +24,9 @@ class _ApiPageState extends State<ApiPage> {
           data.add(index);
         }
         // print(get_data["name"]);
+        setState(() {
+          
+        });
         print("Data fetched successfully");
       } else {
         print("Error: ${response.statusCode}");
