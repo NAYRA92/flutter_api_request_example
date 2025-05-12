@@ -13,23 +13,21 @@ class ApiPage extends StatefulWidget {
 class _ApiPageState extends State<ApiPage> {
   List<dynamic> data = [];
 
+  String apiUrl = "https://jsonplaceholder.typicode.com/users";
+
   Future<void> _fetchData() async {
-    String api_url = "https://jsonplaceholder.typicode.com/users";
+    final response = await http.get(Uri.parse(apiUrl));
     try {
-      final response = await http.get(Uri.parse(api_url));
-      // print(response.body);
       if (response.statusCode == 200) {
         final get_data = jsonDecode(response.body);
         for (var index in get_data) {
           data.add(index);
         }
-        // print(get_data["name"]);
-        setState(() {
-          
-        });
+        setState(() {});
+        // print(data[0]['name']);
         print("Data fetched successfully");
       } else {
-        print("Error: ${response.statusCode}");
+        print("Failed to fetch data ${response.statusCode}");
       }
     } catch (e) {
       print("Error: $e");
@@ -46,14 +44,14 @@ class _ApiPageState extends State<ApiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(
-          itemCount: data.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Text("${data[index]["id"]}. name goes here ${data[index]["name"]}"),
-              subtitle: Text("username goes here ${data[index]["username"]}"),
-            );
-          }),
-    );
+        body: ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text('${data[index]['id']}. User Name: ${data[index]['name']}'),
+          subtitle: Text("User Email: ${data[index]['email']}"),
+        );
+      },
+    ));
   }
 }
